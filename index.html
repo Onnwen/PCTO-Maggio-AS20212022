@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Pannello di controllo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+</head>
+
+<style>
+    #generalMap, #eventsMap, #servicesMap, #itineraryMap, #itineraryMap {
+        width: 100%;
+        height: 600px;
+    }
+</style>
+<style>
+    .sidebar {
+        background-color: #f5f5f5;
+        height: calc(100vh);
+    }
+
+    .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+    }
+
+    .bigButton {
+        text-align: center;
+        background: #eeeeee;
+        width: 280px;
+        height: 280px;
+        margin: 50px 20px 20px;
+        border-radius: 25px;
+        transition: ease-in-out 0.25s;
+    }
+
+    .bigButton:hover {
+        opacity: 65%;
+    }
+</style>
+<body>
+
+<div class="modal fade" id="exit" tabindex="-1" aria-labelledby="exitModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exitModalLabel">Disconessione</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Sei sicuro di volerti disconnettere dall'account "UtenteTest1"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="exitModal">Annulla</button>
+                <button type="button" class="btn btn-danger" onclick="logout()">Disconnetti</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1 px-0 bg-dark position-fixed" id="sticky-sidebar">
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar" style="width: 285px;">
+                <span class="fs-4">Pannello di controllo</span>
+                <hr>
+                <div class="nav nav-pills flex-column mb-auto d-grid gap-2" id="v-pills-tab" role="tablist"
+                     aria-orientation="vertical">
+                    <button class="nav-link active text-white text-start" id="v-pills-dashboard-tab"
+                            data-bs-toggle="pill"
+                            data-bs-target="#v-pills-dashboard"
+                            type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                        <i class="bi bi-clipboard-data" style="margin-right: 5px"></i>
+                        Bacheca
+                    </button>
+                    <button class="nav-link text-white text-start" id="v-pills-events-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-events"
+                            type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                        <i class="bi bi-calendar-date" style="margin-right: 5px"></i>
+                        Eventi
+                    </button>
+                    <button class="nav-link text-white text-start" id="v-pills-infrastructure-tab"
+                            data-bs-toggle="pill"
+                            data-bs-target="#v-pills-infrastructure"
+                            type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                        <i class="bi bi-house" style="margin-right: 5px"></i>
+                        Ricettività
+                    </button>
+                    <button class="nav-link text-white text-start" id="v-pills-services-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-services"
+                            type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                        <i class="bi bi-inbox" style="margin-right: 5px"></i>
+                        Servizi
+                    </button>
+                    <button class="nav-link text-white text-start" id="v-pills-itineries-tab" data-bs-toggle="pill"
+                            data-bs-target="#v-pills-itinerary"
+                            type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                        <i class="bi bi-bicycle" style="margin-right: 5px"></i>
+                        Itinerari
+                    </button>
+                </div>
+                <hr>
+                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exit">
+                    Disconnettiti
+                </button>
+                <p style="padding-top: 10px; text-align: center; color: gray; font-size: 11px;">Sessione attiva dal
+                    12 Maggio
+                    2022</p>
+            </div>
+        </div>
+        <div class="col-10 offset-1" id="main">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel"
+                     aria-labelledby="v-pills-home-tab"
+                     tabindex="0">
+                    <div class="container px-4 py-4" id="featured-3">
+                        <h2 class="pb-2 border-bottom">Ultime modifiche</h2>
+                        <div class="row g-6 py-3 row-cols-1 row-cols-lg-4">
+                            <div class="feature col">
+                                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-2 mb-3">
+                                    <i class="bi bi-calendar-date"></i>
+                                </div>
+                                <h2 style="width: 300px;">Evento aggiunto</h2>
+                                <figcaption class="blockquote-footer" style="padding-top: 10px;">
+                                    17 Maggio 2022
+                                </figcaption>
+                                <p>Il mercato di Fornovo di Taro è l'evento del mese da non perdere.</p>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Modifica</button>
+                                    <button type="button"
+                                            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Vedi eventi della stessa giornata</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Vedi eventi nella stessa località</a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Elimina</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="feature col">
+                                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-2 mb-3">
+                                    <i class="bi bi-bicycle" style="margin-right: 5px"></i>
+                                </div>
+                                <h2 style="width: 300px;">Itinerario modificato</h2>
+                                <figcaption class="blockquote-footer" style="padding-top: 10px;">
+                                    12 Maggio 2022
+                                </figcaption>
+                                <p>La via Francigena è uno degli itinerari più ambiti della zona.</p>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Modifica</button>
+                                    <button type="button"
+                                            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Vedi itinerari nella stessa
+                                            località</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Elimina</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="feature col">
+                                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-2 mb-3">
+                                    <i class="bi bi-bicycle" style="margin-right: 5px"></i>
+                                </div>
+                                <h2 style="width: 300px;">Itinerario aggiunto</h2>
+                                <figcaption class="blockquote-footer" style="padding-top: 10px;">
+                                    11 Maggio 2022
+                                </figcaption>
+                                <p>La via Francigena è uno degli itinerari più ambiti del mondo.</p>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Modifica</button>
+                                    <button type="button"
+                                            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Vedi itinerari nella stessa
+                                            località</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Elimina</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="pb-2 border-bottom" style="margin-top: 50px;">Mappa</h2>
+                        <div id="generalMap"></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-events" role="tabpanel">
+                    <div class="container px-4 py-5" id="events">
+                        <h2 class="pb-2 border-bottom">
+                            Ultimi eventi modificati
+                            <a class="btn btn-secondary btn-sm" href="tutti/eventi.html" role="button">Vedi
+                                tutti
+                            </a>
+                        </h2>
+                        <div class="row g-5 py-4 row-cols-1 row-cols-lg-3">
+                            <div class="bigButton">
+                                <div style="padding-top: 110px;"
+                                     class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-1 mb-1">
+                                    <i class="bi bi-plus-circle-fill"></i>
+                                </div>
+                                <p style="padding-top: 75px; color: gray; font-size: 13px;">Aggiungi un nuovo
+                                    evento</p>
+                            </div>
+                            <div class="feature col">
+                                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-2 mb-3">
+                                    <i class="bi bi-calendar-date"></i>
+                                </div>
+                                <h2 style="width: 300px;">Evento aggiunto</h2>
+                                <figcaption class="blockquote-footer" style="padding-top: 10px;">
+                                    17 Maggio 2022
+                                </figcaption>
+                                <p>Il mercato di Fornovo di Taro è l'evento del mese da non perdere.</p>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Modifica</button>
+                                    <button type="button"
+                                            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Vedi eventi della stessa giornata</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Vedi eventi nella stessa località</a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Elimina</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="pb-2 border-bottom" style="margin-top: 50px;">Mappa degli eventi</h2>
+                        <div id="eventsMap"></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-infrastructure" role="tabpanel">
+                    <div class="container px-4 py-5" id="infrastructure">
+                        <h2 class="pb-2 border-bottom">
+                            Ultime ricettività modificate
+                            <a class="btn btn-secondary btn-sm" href="tutti/ricettività.html" role="button">Vedi
+                                tutte
+                            </a>
+                        </h2>
+                        <div class="row g-5 py-4 row-cols-1 row-cols-lg-3">
+                            <div class="bigButton">
+                                <div style="padding-top: 110px;"
+                                     class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-1 mb-1">
+                                    <i class="bi bi-plus-circle-fill"></i>
+                                </div>
+                                <p style="padding-top: 75px; color: gray; font-size: 13px;">Aggiungi una nuova
+                                    ricettività</p>
+                            </div>
+                        </div>
+                        <h2 class="pb-2 border-bottom" style="margin-top: 50px;">Mappa dei delle ricettività</h2>
+                        <div id="infrastructureMap"></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-services" role="tabpanel">
+                    <div class="container px-4 py-5" id="services">
+                        <h2 class="pb-2 border-bottom">
+                            Ultimi servizi modificati
+                            <a class="btn btn-secondary btn-sm" href="tutti/servizi.html" role="button">Vedi
+                                tutti
+                            </a>
+                        </h2>
+                        <div class="row g-5 py-4 row-cols-1 row-cols-lg-3">
+                            <div class="bigButton">
+                                <div style="padding-top: 110px;"
+                                     class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-1 mb-1">
+                                    <i class="bi bi-plus-circle-fill"></i>
+                                </div>
+                                <p style="padding-top: 75px; color: gray; font-size: 13px;">Aggiungi un nuovo
+                                    servizio</p>
+                            </div>
+                        </div>
+                        <h2 class="pb-2 border-bottom" style="margin-top: 50px;">Mappa dei servizi</h2>
+                        <div id="servicesMap"></div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-itinerary" role="tabpanel">
+                    <div class="container px-4 py-5" id="itinerary">
+                        <h2 class="pb-2 border-bottom">
+                            Ultimi itinerari modificati
+                            <a class="btn btn-secondary btn-sm" href="tutti/itinerari.html" role="button">Vedi
+                                tutti
+                            </a>
+                        </h2>
+                        <div class="row g-5 py-4 row-cols-1 row-cols-lg-3">
+                            <div class="bigButton">
+                                <div style="padding-top: 110px;"
+                                     class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-1 mb-1">
+                                    <i class="bi bi-plus-circle-fill"></i>
+                                </div>
+                                <p style="padding-top: 75px; color: gray; font-size: 13px;">Aggiungi un nuovo
+                                    itinerario</p>
+                            </div>
+                            <div class="feature col">
+                                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-2 mb-3">
+                                    <i class="bi bi-bicycle" style="margin-right: 5px"></i>
+                                </div>
+                                <h2 style="width: 300px;">Itinerario modificato</h2>
+                                <figcaption class="blockquote-footer" style="padding-top: 10px;">
+                                    12 Maggio 2022
+                                </figcaption>
+                                <p>La via Francigena è uno degli itinerari più ambiti della zona.</p>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Modifica</button>
+                                    <button type="button"
+                                            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Vedi itinerari nella stessa
+                                            località</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Elimina</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="feature col">
+                                <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-2 mb-3">
+                                    <i class="bi bi-bicycle" style="margin-right: 5px"></i>
+                                </div>
+                                <h2 style="width: 300px;">Itinerario aggiunto</h2>
+                                <figcaption class="blockquote-footer" style="padding-top: 10px;">
+                                    11 Maggio 2022
+                                </figcaption>
+                                <p>La via Francigena è uno degli itinerari più ambiti del mondo.</p>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-primary">Modifica</button>
+                                    <button type="button"
+                                            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Vedi itinerari nella stessa
+                                            località</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Elimina</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="pb-2 border-bottom" style="margin-top: 50px;">Mappa degli itinerari</h2>
+                        <div id="itineraryMap"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        crossorigin="anonymous"></script>
+<script>
+    const tokenID = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhLSlFYUUpSM1UifQ.eyJpc3MiOiJjb20uZ2FyYW1hbnRlLnRlc3QiLCJpYXQiOjE2NTIyNzgyOTEsImV4cCI6MTY1NDg3MDI1OH0.EAe3dkjEZgPn21ERNRKA6Lvu7e5gen5sBDQS1cTIxvHQJIlIyqUgqBOYufxL5vao6Lra4jy06IdQa3078WvOKg";
+
+    mapkit.init({
+        authorizationCallback: function (done) {
+            done(tokenID);
+        }
+    });
+
+    var generalMap = new mapkit.Map("generalMap");
+    var eventsMap = new mapkit.Map("eventsMap");
+    var infrastructureMap = new mapkit.Map("infrastructureMap");
+    var servicesMap = new mapkit.Map("servicesMap");
+    var itineraryMap = new mapkit.Map("itineraryMap");
+
+    if (sessionStorage.getItem('id') == null) {
+        window.location.replace("login.html");
+    }
+
+    function logout() {
+        sessionStorage.setItem('id', null);
+        window.location.replace("login.html");
+    }
+</script>
+</body>
+</body>
+</html>
