@@ -1,0 +1,30 @@
+<?php
+
+$email = $_POST['email'];
+$password = $_POST['password'];
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header("Content-type: application/json");
+
+$con = mysqli_connect('localhost:8080', 'root', '', 'database_comune');
+
+if (mysqli_connect_errno()) {
+    $msg = "Database connection failed: ";
+    $msg .= mysqli_connect_error();
+    $msg .= " : " . mysqli_connect_errno();
+    exit($msg);
+}
+
+$sql = "SELECT * FROM `utenti` WHERE `email` = '" . $email . "' AND `password` = '" . $password . "'";
+
+$res = mysqli_query($con, $sql);
+$array = mysqli_fetch_array($res);
+$result = array('exist' => $array['id'] != "0" && $array['id'] != null,
+    'id' => $array['id'],
+    'nome' => $array['nome'],
+    'cognome' => $array['cognome']);
+$output = json_encode($result, JSON_PRETTY_PRINT);
+
+echo $output;
+mysqli_close($con);
