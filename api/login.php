@@ -1,13 +1,15 @@
 <?php
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+$email = $_GET['email'];
+$password = $_GET['password'];
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Content-type: application/json");
 
 $con = mysqli_connect('localhost:8080', 'root', '', 'database_comune');
+
+echo "CIAO";
 
 if (mysqli_connect_errno()) {
     $msg = "Database connection failed: ";
