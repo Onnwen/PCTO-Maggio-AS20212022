@@ -9,8 +9,6 @@ header("Content-type: application/json");
 
 $con = mysqli_connect('localhost:8080', 'root', '', 'database_comune');
 
-echo "CIAO";
-
 if (mysqli_connect_errno()) {
     $msg = "Database connection failed: ";
     $msg .= mysqli_connect_error();
