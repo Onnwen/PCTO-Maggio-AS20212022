@@ -20,8 +20,7 @@ $sql = "SELECT * FROM `utenti` WHERE `email` = '" . $email . "' AND `password` =
 
 $res = mysqli_query($con, $sql);
 $array = mysqli_fetch_array($res);
-$result = array('exist' => $array['id'] != "0" && $array['id'] != null,
-    'id' => $array['id'],
+$result = array('id' => $array['id'],
     'nome' => $array['nome'],
     'cognome' => $array['cognome']);
 $output = json_encode($result, JSON_PRETTY_PRINT);
