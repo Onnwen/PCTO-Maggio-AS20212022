@@ -22,7 +22,9 @@ $res = mysqli_query($con, $sql);
 $array = mysqli_fetch_array($res);
 $result = array('id' => $array['id'],
     'nome' => $array['nome'],
-    'cognome' => $array['cognome']);
+    'cognome' => $array['cognome'],
+    '1' => $email,
+    '2' => $password);
 $output = json_encode($result, JSON_PRETTY_PRINT);
 
 echo $output;
