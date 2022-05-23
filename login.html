@@ -40,7 +40,7 @@
             <label for="floatingPassword">Password</label>
         </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Accedi</button>
+        <button class="w-100 btn btn-lg btn-primary" type="button" id="submit">Accedi</button>
     </form>
 </main>
 
@@ -59,7 +59,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $("#submit").click(function (e) {
+        $("#submit").click(function () {
             $.post("http://localhost:8080/pctomaggio/PCTO-Maggio-AS20212022/api/login.php", {
                 username: $("#email").val(),
                 password: $("#password").val()
@@ -68,11 +68,10 @@
                     alert("È stato riscontrato un errore inaspettato.");
                 })
                 .done(function (data) {
-                    var json = JSON.parse(data)
-                    if (json.id != null) {
-                        sessionStorage.setItem('id', json.id);
-                        sessionStorage.setItem('name', json.nome);
-                        sessionStorage.setItem('cognome', json.cognome);
+                    if (data.id != null) {
+                        sessionStorage.setItem('id', data.id);
+                        sessionStorage.setItem('name', data.nome);
+                        sessionStorage.setItem('cognome', data.cognome);
                         window.location.replace("index.html");
                     } else {
                         alert("Credenziali errate.");
