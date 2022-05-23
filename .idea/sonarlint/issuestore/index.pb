@@ -28,3 +28,7 @@ H
 modifica/itinerario.html,0/7/0777d1e3b21b44cbd24f4216e557c883065eae59
 C
 modifica/luogo.html,d/b/db1908b84d1eab8c577de953c8eb7706b0e9af9b
+D
+crea/itinerario.html,f/a/fa879a415ca374840cfb9dc9d3470a1c7d5a794c
+D
+modifica/evento.html,9/9/99cf89f0b29ee9867810579a06a766ccc18ceb2a
