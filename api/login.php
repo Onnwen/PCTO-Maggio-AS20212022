@@ -7,7 +7,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Content-type: application/json");
 
-$con = mysqli_connect('localhost', 'root', '', 'database_comune');
+$con = mysqli_connect('localhost', 'admin', '', 'database_comune');
 
 if (mysqli_connect_errno()) {
     $msg = "Database connection failed: ";
