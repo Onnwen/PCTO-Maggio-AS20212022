@@ -1,7 +1,7 @@
 <?php
 
-$email = $_GET['email'];
-$password = $_GET['password'];
+$email = $_POST['email'];
+$password = $_POST['password'];
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");

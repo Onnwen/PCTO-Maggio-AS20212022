@@ -40,7 +40,7 @@
             <label for="floatingPassword">Password</label>
         </div>
 
-        <button class="w-100 btn btn-lg btn-primary" type="button" onclick="login()">Accedi</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Accedi</button>
     </form>
 </main>
 
@@ -56,10 +56,29 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"
         integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
         crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script>
-    function login() {
-        sessionStorage.setItem('id', 'ciao');
-        window.location.replace("index.html");
-    }
+    $(document).ready(function () {
+        $("#submit").click(function (e) {
+            $.post("http://localhost:8080/pctomaggio/PCTO-Maggio-AS20212022/api/login.php", {
+                username: $("#email").val(),
+                password: $("#password").val()
+            }, "json")
+                .fail(function () {
+                    alert("È stato riscontrato un errore inaspettato.");
+                })
+                .done(function (data) {
+                    var json = JSON.parse(data)
+                    if (json.id != null) {
+                        sessionStorage.setItem('id', json.id);
+                        sessionStorage.setItem('name', json.nome);
+                        sessionStorage.setItem('cognome', json.cognome);
+                        window.location.replace("index.html");
+                    } else {
+                        alert("Credenziali errate.");
+                    }
+                });
+        });
+    });
 </script>
 </html>
