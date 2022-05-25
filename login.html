@@ -69,9 +69,6 @@
                 })
                 .done(function (data) {
                     if (data.id != null) {
-                        sessionStorage.setItem('id', data.id);
-                        sessionStorage.setItem('name', data.nome);
-                        sessionStorage.setItem('cognome', data.cognome);
                         window.location.replace("index.html");
                     } else {
                         alert("Credenziali errate.");

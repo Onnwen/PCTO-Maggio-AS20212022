@@ -21,7 +21,7 @@
 </head>
 
 <style>
-    #generalMap, #eventsMap, #servicesMap, #itineraryMap, #itineraryMap {
+    #generalMap, #eventsMap, #servicesMap, #itineraryMap, #infrastructureMap {
         width: 100%;
         height: 600px;
     }
@@ -68,13 +68,19 @@
         margin-left: -280px;
     }
 
-    @media (max-width: 768px) {
-        #sidebar {
-            margin-left: -280px;
-        }
-        #sidebar.active {
-            margin-left: 0;
-        }
+    #content {
+        margin-left: 280px;
+
+        transition: ease-in-out 0.75s;
+    }
+
+    #content.full {
+        margin-left: 0px;
+    }
+
+    .full {
+        width: 100%;
+        padding: 25px;
     }
 </style>
 <body>
@@ -90,7 +96,7 @@
                 Sei sicuro di volerti disconnettere dall'account "UtenteTest1"?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="exitModal">Annulla</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
                 <button type="button" class="btn btn-danger" onclick="logout()">Disconnetti</button>
             </div>
         </div>
@@ -98,7 +104,7 @@
 </div>
 
 <div class="wrapper">
-    <nav class="sidebar" id="sidebar">
+    <nav style="position: fixed; left: 0; top: 0; height: 100%;"class="sidebar" id="sidebar">
         <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
             <span class="fs-4">Pannello di controllo</span>
             <hr>
@@ -146,7 +152,7 @@
                 2022</p>
         </div>
     </nav>
-    <div class="" id="content">
+    <div class="margin" id="content">
         <div class="tab-content" id="v-pills-tabContent">
             <a onclick="sidebarButton()">
                 <i style="font-size: 35px; color: gray; margin-left: 15px;" class="bi bi-x" id="sidebarIcon"></i>
@@ -154,9 +160,9 @@
             <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel"
                  aria-labelledby="v-pills-home-tab"
                  tabindex="0">
-                <div class="container px-4 py-4" id="featured-3">
+                <div class="full" class="container px-4 py-4" id="featured-3">
                     <h2 class="pb-2 border-bottom">Ultime modifiche</h2>
-                    <div class="row g-6 py-3 row-cols-1 row-cols-lg-4">
+                    <div class="row g-6 py-3 row-cols-1 row-cols-lg-3">
                         <div class="feature col">
                             <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-2 mb-3">
                                 <i class="bi bi-calendar-date"></i>
@@ -167,20 +173,13 @@
                             </figcaption>
                             <p>Il mercato di Fornovo di Taro è l'evento del mese da non perdere.</p>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary">Modifica</button>
+                                <a class="btn btn-primary" role="button" href="modifica/evento.html">Modifica</a>
                                 <button type="button"
                                         class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Vedi eventi della stessa giornata</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Vedi eventi nella stessa località</a>
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
                                     <li><a class="dropdown-item" href="#">Elimina</a></li>
                                 </ul>
                             </div>
@@ -195,18 +194,13 @@
                             </figcaption>
                             <p>La via Francigena è uno degli itinerari più ambiti della zona.</p>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary">Modifica</button>
+                                <a class="btn btn-primary" role="button" href="modifica/itinerario.html">Modifica</a>
                                 <button type="button"
                                         class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Vedi itinerari nella stessa
-                                        località</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
                                     <li><a class="dropdown-item" href="#">Elimina</a></li>
                                 </ul>
                             </div>
@@ -221,18 +215,13 @@
                             </figcaption>
                             <p>La via Francigena è uno degli itinerari più ambiti del mondo.</p>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary">Modifica</button>
+                                <a class="btn btn-primary" role="button" href="modifica/itinerario.html.html">Modifica</a>
                                 <button type="button"
                                         class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Vedi itinerari nella stessa
-                                        località</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
                                     <li><a class="dropdown-item" href="#">Elimina</a></li>
                                 </ul>
                             </div>
@@ -243,14 +232,14 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-events" role="tabpanel">
-                <div class="container px-4 py-5" id="events">
+                <div class="full" class="container px-4 py-5" id="events">
                     <h2 class="pb-2 border-bottom">
                         Ultimi eventi modificati
                         <a class="btn btn-secondary btn-sm" href="tutti/eventi.html" role="button">Vedi
                             tutti
                         </a>
                     </h2>
-                    <div class="row g-5 py-4 row-cols-1 row-cols-lg-3">
+                    <div class="row g-5 py-4 row-cols-1 row-cols-lg-2">
                         <div class="bigButton">
                             <div style="padding-top: 110px;"
                                  class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient text-primary fs-1 mb-1">
@@ -269,20 +258,13 @@
                             </figcaption>
                             <p>Il mercato di Fornovo di Taro è l'evento del mese da non perdere.</p>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary">Modifica</button>
+                                <a class="btn btn-primary" role="button" href="modifica/evento.html">Modifica</a>
                                 <button type="button"
                                         class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Vedi eventi della stessa giornata</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Vedi eventi nella stessa località</a>
-                                    </li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
                                     <li><a class="dropdown-item" href="#">Elimina</a></li>
                                 </ul>
                             </div>
@@ -293,7 +275,7 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-infrastructure" role="tabpanel">
-                <div class="container px-4 py-5" id="infrastructure">
+                <div class="full" class="container px-4 py-5" id="infrastructure">
                     <h2 class="pb-2 border-bottom">
                         Ultime ricettività modificate
                         <a class="btn btn-secondary btn-sm" href="tutti/ricettività.html" role="button">Vedi
@@ -315,7 +297,7 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-services" role="tabpanel">
-                <div class="container px-4 py-5" id="services">
+                <div class="full" class="container px-4 py-5" id="services">
                     <h2 class="pb-2 border-bottom">
                         Ultimi servizi modificati
                         <a class="btn btn-secondary btn-sm" href="tutti/servizi.html" role="button">Vedi
@@ -337,7 +319,7 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="v-pills-itinerary" role="tabpanel">
-                <div class="container px-4 py-5" id="itinerary">
+                <div class="full" class="container px-4 py-5" id="itinerary">
                     <h2 class="pb-2 border-bottom">
                         Ultimi itinerari modificati
                         <a class="btn btn-secondary btn-sm" href="tutti/itinerari.html" role="button">Vedi
@@ -363,18 +345,13 @@
                             </figcaption>
                             <p>La via Francigena è uno degli itinerari più ambiti della zona.</p>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary">Modifica</button>
+                                <a class="btn btn-primary" role="button" href="modifica/itinerario.html">Modifica</a>
                                 <button type="button"
                                         class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Vedi itinerari nella stessa
-                                        località</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
                                     <li><a class="dropdown-item" href="#">Elimina</a></li>
                                 </ul>
                             </div>
@@ -389,7 +366,7 @@
                             </figcaption>
                             <p>La via Francigena è uno degli itinerari più ambiti del mondo.</p>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary">Modifica</button>
+                                <a class="btn btn-primary" role="button" href="modifica/itinerario.html">Modifica</a>
                                 <button type="button"
                                         class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -454,11 +431,13 @@
             document.getElementById("sidebar").classList.add('active');
             document.getElementById("sidebarIcon").classList.remove('bi-x');
             document.getElementById("sidebarIcon").classList.add('bi-list');
+            document.getElementById("content").classList.add('full');
         }
         else {
             document.getElementById("sidebar").classList.remove('active');
             document.getElementById("sidebarIcon").classList.remove('bi-list');
             document.getElementById("sidebarIcon").classList.add('bi-x');
+            document.getElementById("content").classList.remove('full');
         }
     }
 </script>

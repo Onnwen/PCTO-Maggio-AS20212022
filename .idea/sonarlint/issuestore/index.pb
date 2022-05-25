@@ -24,11 +24,5 @@ B
 crea/servizio.html,0/b/0bc7f57548a78990939798d2d67afb71a36f0b3f
 F
 crea/ricettività.html,f/e/febaa2d1e85b377e2651694ad22b525ea4d25f38
-H
-modifica/itinerario.html,0/7/0777d1e3b21b44cbd24f4216e557c883065eae59
-C
-modifica/luogo.html,d/b/db1908b84d1eab8c577de953c8eb7706b0e9af9b
 D
 crea/itinerario.html,f/a/fa879a415ca374840cfb9dc9d3470a1c7d5a794c
-D
-modifica/evento.html,9/9/99cf89f0b29ee9867810579a06a766ccc18ceb2a
